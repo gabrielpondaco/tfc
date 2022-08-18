@@ -10,7 +10,8 @@
     "plugin:@typescript-eslint/recommended",
     "airbnb-base",
     "plugin:mocha/recommended",
-    "airbnb-typescript/base"
+    "airbnb-typescript/base",
+    "@typescript-eslint/parser"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {

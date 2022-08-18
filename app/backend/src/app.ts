@@ -1,11 +1,13 @@
 import * as express from 'express';
+import 'express-async-errors';
+import loginRouter from './routes/loginRouter';
+import errorMiddleware from './middlewares/errorMiddleware';
 
 class App {
   public app: express.Express;
 
   constructor() {
     this.app = express();
-
     this.config();
 
     // Não remover essa rota
@@ -19,9 +21,11 @@ class App {
       res.header('Access-Control-Allow-Headers', '*');
       next();
     };
-
     this.app.use(express.json());
     this.app.use(accessControl);
+    
+    this.app.use('/login', loginRouter);
+    this.app.use(errorMiddleware);
   }
 
   public start(PORT: string | number):void {

@@ -7,39 +7,51 @@ import { app } from '../app';
 import Example from '../database/models/ExampleModel';
 
 import { Response } from 'superagent';
+import authService from '../services/authService';
 
 chai.use(chaiHttp);
 
 const { expect } = chai;
 
-describe('Seu teste', () => {
-  /**
-   * Exemplo do uso de stubs com tipos
-   */
+describe('Login', () => { 
+  const mockLoginBody = {
+    "email": "admin@admin.com",
+    "password": "string"
+  }
+  const mockLoginBodyNotExist = {
+    "email": "ademiro@admin.com",
+    "password": "string"
+  }
+  const mockToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwicGFzc3dvcmQiOiJzdHJpbmcxIn0sImlhdCI6MTY2MDg0NTc4Mn0.p2hgnkul8fEQo9ljiQulld53leWjzeTeFw0A9l1V7IQ';
+  beforeEach(() => {
+    sinon.stub(authService, "createToken").resolves(mockToken)
+  })
 
-  // let chaiHttpResponse: Response;
+  afterEach(() => {
+    sinon.restore();
+  })
 
-  // before(async () => {
-  //   sinon
-  //     .stub(Example, "findOne")
-  //     .resolves({
-  //       ...<Seu mock>
-  //     } as Example);
-  // });
+  it('should return status 200', async  () => {
+    const response = await chai.request(app)
+      .post('/login')
+      .send(mockLoginBody)
+    expect(response.status).to.equal(200);
+  })
 
-  // after(()=>{
-  //   (Example.findOne as sinon.SinonStub).restore();
-  // })
+  it('should return status 401 when email is incorrect', async  () => {
+    const response = await chai.request(app)
+      .post('/login')
+      .send(mockLoginBodyNotExist)
+    expect(response.status).to.equal(401);
+  })
 
-  // it('...', async () => {
-  //   chaiHttpResponse = await chai
-  //      .request(app)
-  //      ...
+  it('should return a token', async  () => {
+    const response = await chai.request(app)
+      .post('/login')
+      .send(mockLoginBody)
+    
+    expect(response.body.token).to.equal(mockToken);
 
-  //   expect(...)
-  // });
+  })
 
-  it('Seu sub-teste', () => {
-    expect(false).to.be.eq(true);
-  });
-});
+})

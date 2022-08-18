@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response } from 'express';
-import usersModel from '../database/models/user';
 import authService from '../services/authService';
 import loginService from '../services/loginService';
 import { NotFoundError, ValidationError } from '../errors';
@@ -16,12 +15,12 @@ const loginController = {
   },
 
   async validate(req: Request, res:Response) {
-    const token = req.headers.authorization;
-    if (!token) throw ValidationError;
-    const { data: { email } } = await authService.validateToken(token);
-    const user = await loginService.findUser(email);
-    if(!user) throw new NotFoundError('User not found');
-    return res.status(200).json({ role: user.role });
+      const token = req.headers.authorization;
+      if (!token) throw new ValidationError('Token not found');
+      const { data: { email } } = await authService.validateToken(token);
+      const user = await loginService.findUser(email);
+      if(!user) throw new NotFoundError('User not found');
+      return res.status(200).json({ role: user.role });
   }
 };
 

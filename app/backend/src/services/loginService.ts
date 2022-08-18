@@ -1,5 +1,4 @@
 import * as Joi from 'joi';
-import { ILoginBody } from '../interfaces';
 import runSchema from '../utils/utils';
 import usersModel from '../database/models/user';
 

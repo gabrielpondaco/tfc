@@ -3,11 +3,16 @@ import leaderboardService from '../services/leaderboardService';
 import teamsService from '../services/teamsService';
 
 const leaderboardController = {
-  async homeLeaderboard(req: Request, res: Response) {
+  async leaderboard(req: Request, res: Response) {
     const teamsList = await teamsService.findAll();
     const homeLeaderboard = await Promise.all(teamsList.map(async (team) => {
-      const matchesList = await leaderboardService.findHomeMatches(team.id);
-      const leaderBoard = leaderboardService.createLeaderBoardHome(matchesList, team?.teamName);
+      if (req.url.includes('home')) {
+        const matchesList = await leaderboardService.findHomeMatches(team.id);
+        const leaderBoard = leaderboardService.createLeaderBoardHome(matchesList, team?.teamName)
+        return leaderBoard;
+      }
+      const matchesList = await leaderboardService.findAwayMatches(team.id);
+      const leaderBoard = leaderboardService.createLeaderBoardAway(matchesList, team?.teamName);
       return leaderBoard;
     }))
     const sortedLeaderboard = await leaderboardService.sortLeaderboardArray(homeLeaderboard);

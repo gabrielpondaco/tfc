@@ -77,6 +77,13 @@ const matchesService = {
       raw: true
     });
     return matches;
+  },
+  async findByAwayTeam(id: number) {
+    const matches = await matchesModel.findAll({
+      where: { awayTeam: id, inProgress: false},
+      raw: true
+    });
+    return matches;
   }
 };
 

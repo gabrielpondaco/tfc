@@ -20,6 +20,25 @@ const matchesService = {
     })
     return teamList;
   },
+
+  async findAllByQuery(inProgress: boolean) {
+    const teamList = await matchesModel.findAll({
+      where: { inProgress },
+      include: [
+        {
+          model: teamsModel,
+          as: 'teamHome',
+          attributes: ['teamName'],
+        },
+        {
+          model: teamsModel,
+          as: 'teamAway',
+          attributes: ['teamName'],
+        },
+      ],
+    })
+    return teamList;
+  }
 };
 
 export default matchesService;

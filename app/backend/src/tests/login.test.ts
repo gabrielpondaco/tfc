@@ -83,6 +83,6 @@ describe('Login/validate', () => {
     const response = await chai.request(app)
       .get('/login/validate')
       .set({'Authorization': 'xaxim' })
-    expect(response.body).to.deep.equal({ message: 'Invalid token' });
+    expect(response.body).to.deep.equal({ message: 'Token must be a valid token' });
   });
 })

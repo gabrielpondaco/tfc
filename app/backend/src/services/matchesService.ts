@@ -1,5 +1,6 @@
 import matchesModel from '../database/models/match';
 import teamsModel from '../database/models/team';
+import { IMatch } from '../interfaces';
 
 const matchesService = {
   async findAll() {
@@ -38,6 +39,12 @@ const matchesService = {
       ],
     })
     return teamList;
+  },
+
+  async add(match: IMatch) {
+    match.inProgress = true;
+    const data = await matchesModel.create(match)
+    return data;
   }
 };
 

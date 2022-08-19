@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 
 const errors: Record<string, number> = {
   ValidationError: 400,
+  NotValidBody: 401,
   NotFoundError: 404,
   InvalidTokenError: 404,
 };

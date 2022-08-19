@@ -1,10 +1,20 @@
+import { NotValidBody, NotFoundError } from '../errors';
 import matchesModel from '../database/models/match';
 import teamsModel from '../database/models/team';
 import { IMatch } from '../interfaces';
+import teamsService from './teamsService';
 
 const matchesService = {
-  async findAll() {
+  async validateTeams(match: IMatch) {
+    const { homeTeam, awayTeam } = match;
+    if (homeTeam === awayTeam) throw new NotValidBody("It is not possible to create a match with two equal teams");
+    const homeTeamExists = await teamsService.getById(homeTeam);
+    const awayTeamExists = await teamsService.getById(awayTeam);
+    if (!homeTeamExists || !awayTeamExists) throw new NotFoundError("There is no team with such id!");
+  },
+  
 
+  async findAll() {
     const teamList = await matchesModel.findAll({
       include: [
         {

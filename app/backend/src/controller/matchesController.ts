@@ -19,6 +19,7 @@ const matchesController = {
     const token = req.headers.authorization;
     if (!token) throw new ValidationError('Token not found');
     await authService.validateToken(token);
+    await matchesService.validateTeams(req.body);
     const newMatch = await matchesService.add(req.body);
     return res.status(201).json(newMatch);
   },

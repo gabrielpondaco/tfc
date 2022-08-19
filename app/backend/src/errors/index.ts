@@ -18,3 +18,10 @@ export class InvalidToken extends Error {
     this.name = 'InvalidTokenError';
   }
 }
+
+export class NotValidBody extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'NotValidBody';
+  }
+}

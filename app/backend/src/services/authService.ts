@@ -1,7 +1,7 @@
 import { JwtPayload } from 'jsonwebtoken';
 import * as Jwt from 'jsonwebtoken';
 import { TokenInterface } from '../interfaces';
-import { NotFoundError } from '../errors';
+import { InvalidTokenError } from '../errors';
 
 const authService = {
   async createToken(payload: JwtPayload) {
@@ -16,7 +16,7 @@ const authService = {
       const decoded = Jwt.verify(token, secret);    
       return decoded as TokenInterface;
     } catch (error) {
-      throw new NotFoundError('Invalid token');
+      throw new InvalidTokenError('Token must be a valid token');
     }
   },
 };

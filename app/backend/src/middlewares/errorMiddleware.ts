@@ -4,7 +4,7 @@ const errors: Record<string, number> = {
   ValidationError: 400,
   NotValidBody: 401,
   NotFoundError: 404,
-  InvalidTokenError: 404,
+  InvalidTokenError: 401,
 };
 
 const errorMiddleware = (

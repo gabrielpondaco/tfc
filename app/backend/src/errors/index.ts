@@ -12,7 +12,7 @@ export class ValidationError extends Error {
   }
 }
 
-export class InvalidToken extends Error {
+export class InvalidTokenError extends Error {
   constructor(message: string) {
     super(message);
     this.name = 'InvalidTokenError';

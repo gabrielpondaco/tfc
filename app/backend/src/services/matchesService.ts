@@ -69,6 +69,14 @@ const matchesService = {
       awayTeamGoals,
       homeTeamGoals,
     }, { where: { id } });
+  },
+
+  async findByHomeTeam(id: number) {
+    const matches = await matchesModel.findAll({
+      where: { homeTeam: id, inProgress: false},
+      raw: true
+    });
+    return matches;
   }
 };
 

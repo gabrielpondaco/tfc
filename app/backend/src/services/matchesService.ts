@@ -45,6 +45,13 @@ const matchesService = {
     match.inProgress = true;
     const data = await matchesModel.create(match)
     return data;
+  },
+
+  async finishMatch(id: number) {
+    await matchesModel.update({
+      inProgress: false,
+    }, {where: { id }})
+    return true;
   }
 };
 

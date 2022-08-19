@@ -62,6 +62,13 @@ const matchesService = {
       inProgress: false,
     }, {where: { id }})
     return true;
+  },
+
+  async update(id: number, homeTeamGoals: number, awayTeamGoals: number) {
+    await matchesModel.update({
+      awayTeamGoals,
+      homeTeamGoals,
+    }, { where: { id } });
   }
 };
 

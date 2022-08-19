@@ -7,6 +7,22 @@ import { ILeaderboard } from '../interfaces';
 
 
 const leaderboardService = {
+  async groupLeaderboards(homeLeaderboard: ILeaderboard, awayLeaderboard: ILeaderboard) {
+    const genericLeaderboard = {
+    name: homeLeaderboard.name,
+    totalPoints: homeLeaderboard.totalPoints + awayLeaderboard.totalPoints,
+    totalGames: homeLeaderboard.totalGames + awayLeaderboard.totalGames,
+    totalVictories: homeLeaderboard.totalVictories + awayLeaderboard.totalVictories,
+    totalDraws: homeLeaderboard.totalDraws + awayLeaderboard.totalDraws,
+    totalLosses: homeLeaderboard.totalLosses + awayLeaderboard.totalLosses,
+    goalsFavor: homeLeaderboard.goalsFavor + awayLeaderboard.goalsFavor,
+    goalsOwn: homeLeaderboard.goalsOwn + awayLeaderboard.goalsOwn,
+    goalsBalance: homeLeaderboard.goalsBalance + awayLeaderboard.goalsBalance,
+    efficiency: '',
+    }
+    genericLeaderboard.efficiency = ((genericLeaderboard.totalPoints / (genericLeaderboard.totalGames * 3) * 100)).toFixed(2);
+    return genericLeaderboard;
+  },
 
   async findHomeMatches(id: number) {
     const matches = await matchesService.findByHomeTeam(id);

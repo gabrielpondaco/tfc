@@ -4,15 +4,9 @@ import * as chai from 'chai';
 import chaiHttp = require('chai-http');
 
 import { app } from '../app';
-import Example from '../database/models/ExampleModel';
-
-import { Response } from 'superagent';
-import authService from '../services/authService';
 
 chai.use(chaiHttp);
 import matchesModel from '../database/models/match';
-import matchesService from '../services/matchesService';
-import Match from '../database/models/match';
 
 const { expect } = chai;
 
@@ -68,7 +62,6 @@ describe('Matches', () => {
       id: 56,
       inProgress: true
     }
-    // sinon.stub(matchesService, "add").resolves(mockResponseObj as Match)
     const response = await chai.request(app)
       .post('/matches')
       .send(mockBody)
@@ -79,7 +72,6 @@ describe('Matches', () => {
   });
 
   it('should allow to update match', async () => {
-    // sinon.stub(matchesService, "finishMatch").resolves()
     const response = await chai.request(app)
       .patch('/matches/:id/finish');
     expect(response.status).to.equal(200);
@@ -91,7 +83,6 @@ describe('Matches', () => {
       "homeTeamGoals": 3,
       "awayTeamGoals": 1
     }
-    // sinon.stub(matchesService, "update").resolves()
     const response = await chai.request(app)
       .patch('/matches/:id')
       .send(mockBody);
